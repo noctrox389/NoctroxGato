@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Boyfriend Ultra",
+    "videoId": "ABCDEFGHIJK",
+    "mediafireUrl": "https://www.mediafire.com/file/ejemplo1",
+    "description": "Optimización con sprites recortados...",
+    "tags": ["Optimizado", "Android"],
+    "credits": "Créditos a los autores originales"
+  },
+  {
+    "name": "Pico Light",
+    "videoId": "XYZABCDEFGH",
+    "mediafireUrl": "https://www.mediafire.com/file/ejemplo2",
+    "description": "Versión ligera con menos animaciones...",
+    "tags": ["Liviano", "PC"],
+    "credits": "Equipo de desarrollo FNF"
+  }
+]
