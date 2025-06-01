@@ -10,20 +10,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!Array.isArray(mods)) throw new Error('Formato de mods.json inválido');
 
     mods.forEach(mod => {
-      // Aplicar colores con valores por defecto (SOLO nameColor actualizado)
-      const nameColor = mod.nameColor || '#0ff0fc';  // ✅ Este es el único cambio relevante
+      // Aplicar colores con valores por defecto
+      const nameColor = mod.nameColor || '#0ff0fc';
       const cardColor = mod.cardColor || '#1a1a2e';
       const borderColor = nameColor;
 
       const modCard = document.createElement('article');
       modCard.className = 'mod-card neon-card';
       
-      // Aplicar estilos personalizados (todo igual)
+      // Aplicar estilos personalizados
       modCard.style.backgroundColor = cardColor;
       modCard.style.borderColor = borderColor;
       modCard.style.boxShadow = `0 0 15px ${nameColor}80`;
       
-      // Escapar comillas simples (igual)
+      // Escapar comillas simples en los créditos
       const safeCredits = (mod.credits || 'Créditos no disponibles')
                          .replace(/'/g, "\\'")
                          .replace(/"/g, '&quot;');
@@ -35,7 +35,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                   allowfullscreen></iframe>
         </div>
         <div class="mod-info">
-          <h2 class="neon-title" style="color: ${nameColor}"> <!-- ✅ Aquí se aplica -->
+          <h2 class="mod-name neon-flicker" style="
+            color: ${nameColor};
+            --neon-color: ${nameColor};
+          ">
             ${mod.name}
           </h2>
           <div class="mod-meta">
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.appendChild(modCard);
     });
 
-    // Manejar clics en botones de créditos (igual)
+    // Manejar clics en botones de créditos
     document.querySelectorAll('.neon-credits').forEach(button => {
       button.addEventListener('click', () => {
         alert(button.dataset.credits);
