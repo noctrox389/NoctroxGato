@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!response.ok) throw new Error('No se pudo cargar mods.json');
     
     const mods = await response.json();
-    const container = document.getElementById('modsContainer');
+    const container = document.getElementById('modscontainer');
 
     // Validar que mods sea un array
     if (!Array.isArray(mods)) throw new Error('Formato de mods.json inválido');
