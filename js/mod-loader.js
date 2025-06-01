@@ -5,29 +5,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const mods = await response.json();
     const container = document.getElementById('modscontainer');
-
-    // Validar que mods sea un array
-    if (!Array.isArray(mods)) throw new Error('Formato de mods.json inválido');
+    if (!container) throw new Error('No se encontró el contenedor de mods');
 
     mods.forEach(mod => {
-      // Aplicar colores con valores por defecto
-      const nameColor = mod.nameColor || '#0ff0fc';  // Color neón verde-azul por defecto
-      const cardColor = mod.cardColor || '#1a1a2e';  // Color de fondo oscuro por defecto
-      const borderColor = nameColor;  // Usar el mismo color que el nombre para el borde
+      // Solo usamos nameColor (con valor por defecto)
+      const nameColor = mod.nameColor || '#0ff0fc';
 
       const modCard = document.createElement('article');
-      modCard.className = 'mod-card neon-card';
+      modCard.className = 'mod-card';
       
-      // Aplicar estilos personalizados
-      modCard.style.backgroundColor = cardColor;
-      modCard.style.borderColor = borderColor;
-      modCard.style.boxShadow = `0 0 15px ${nameColor}80`; // 80 = 50% de opacidad
-      
-      // Escapar comillas simples en los créditos para evitar errores
-      const safeCredits = (mod.credits || 'Créditos no disponibles')
-                         .replace(/'/g, "\\'")
-                         .replace(/"/g, '&quot;');
-
       modCard.innerHTML = `
         <div class="mod-preview">
           <iframe src="https://www.youtube.com/embed/${mod.videoId}" 
@@ -35,21 +21,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                   allowfullscreen></iframe>
         </div>
         <div class="mod-info">
-          <h2 class="neon-title" style="color: ${nameColor}">
+          <h2 style="color: ${nameColor}">
             ${mod.name}
           </h2>
           <div class="mod-meta">
-            ${(mod.tags || []).map(tag => `<span class="neon-tag">${tag}</span>`).join('')}
+            ${(mod.tags || []).map(tag => `<span>${tag}</span>`).join('')}
           </div>
-          <p class="mod-desc">${mod.description || 'Descripción no disponible'}</p>
+          <p>${mod.description || 'Sin descripción'}</p>
           <div class="mod-links">
-            <a href="${mod.mediafireUrl}" 
-               class="neon-download" 
-               target="_blank" 
-               rel="noopener noreferrer">
+            <a href="${mod.mediafireUrl}" target="_blank">
               <i class="fas fa-download"></i> MediaFire
             </a>
-            <button class="neon-credits" data-credits="${safeCredits}">
+            <button onclick="alert('${(mod.credits || 'Sin créditos').replace(/'/g, "\\'")}')">
               <i class="fas fa-users"></i> Créditos
             </button>
           </div>
@@ -59,20 +42,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.appendChild(modCard);
     });
 
-    // Manejar clics en botones de créditos (mejor práctica que onclick en HTML)
-    document.querySelectorAll('.neon-credits').forEach(button => {
-      button.addEventListener('click', () => {
-        alert(button.dataset.credits);
-      });
-    });
-
   } catch (error) {
-    console.error('Error cargando mods:', error);
-    const errorContainer = document.getElementById('modsContainer') || document.body;
-    errorContainer.innerHTML = `
-      <div class="error neon-text">
-        Error cargando los mods: ${error.message}
-      </div>
-    `;
+    console.error('Error:', error);
+    const errorMsg = document.createElement('div');
+    errorMsg.textContent = `Error: ${error.message}`;
+    errorMsg.style.color = 'red';
+    errorMsg.style.padding = '1rem';
+    document.body.prepend(errorMsg);
   }
 });
