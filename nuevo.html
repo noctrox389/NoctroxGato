@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Añadir Nuevo Mod</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/neon.css">
+</head>
+<body>
+  <header class="neon-header">
+    <h1 class="neon-text">➕ NUEVO MOD</h1>
+  </header>
+
+  <nav class="neon-nav">
+    <a href="index.html" class="neon-btn">← Volver</a>
+  </nav>
+
+  <main class="form-container">
+    <form id="modForm" class="neon-form">
+      <div class="form-group">
+        <label for="modName" class="neon-label">Nombre del Mod:</label>
+        <input type="text" id="modName" class="neon-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="youtubeUrl" class="neon-label">URL de YouTube:</label>
+        <input type="url" id="youtubeUrl" class="neon-input" required>
+        <div id="videoPreview" class="video-preview"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="mediafireUrl" class="neon-label">URL de MediaFire:</label>
+        <input type="url" id="mediafireUrl" class="neon-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="modDescription" class="neon-label">Descripción:</label>
+        <textarea id="modDescription" class="neon-textarea" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="modCredits" class="neon-label">Créditos:</label>
+        <textarea id="modCredits" class="neon-textarea"></textarea>
+      </div>
+
+      <button type="submit" class="neon-submit">Publicar Mod</button>
+    </form>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

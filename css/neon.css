@@ -1,0 +1,27 @@
+.neon-text {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green);
+  animation: flicker 1.5s infinite alternate;
+}
+
+.neon-card {
+  border: 1px solid var(--neon-green);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.neon-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px var(--neon-green);
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 10px var(--neon-green),
+                 0 0 20px var(--neon-green),
+                 0 0 30px var(--neon-pink);
+  }
+  20%, 24%, 55% {        
+    text-shadow: none;
+  }
+}
