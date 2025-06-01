@@ -1,8 +1,8 @@
 // Configuración automática de redes
 const socialLinks = {
-  whatsapp: "https://wa.me/tunúmero",
+  whatsapp: "https://chat.whatsapp.com/IjomD8ixNCy5ynpiNbt6X6",
   discord: "https://discord.gg/tuinvitación",
-  youtube: "https://youtube.com/tucanal"
+  youtube: "https://youtube.com/@noctroxgato"
 };
 
 document.addEventListener('DOMContentLoaded', function() {
