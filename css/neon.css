@@ -1,35 +1,19 @@
+:root {
+  --neon-green: #0ff0fc;
+  --neon-pink: #ff00ff;
+  --neon-blue: #00f0ff;
+}
+
+/* Efecto para el título principal */
 .neon-text {
   color: var(--neon-green);
-  text-shadow: 0 0 10px var(--neon-green);
+  text-shadow: 
+    0 0 5px var(--neon-green),
+    0 0 10px var(--neon-green);
   animation: flicker 1.5s infinite alternate;
 }
 
-.neon-card {
-  border: 1px solid var(--neon-green);
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.neon-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 25px var(--neon-green);
-}
-.neon-tag {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  margin: 0.25rem;
-  background: rgba(0, 255, 255, 0.1);
-  border: 1px solid #0ff0fc;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  color: #0ff0fc;
-  transition: all 0.3s ease;
-}
-
-.neon-tag:hover {
-  background: rgba(0, 255, 255, 0.2);
-  transform: translateY(-2px);
-}
+/* Efecto para nombres de mods */
 .mod-name.neon-text {
   animation: flicker 1.5s infinite alternate;
   text-shadow: 
@@ -38,13 +22,52 @@
     0 0 20px currentColor;
 }
 
+/* Tarjetas de mods */
+.neon-card {
+  border: 1px solid var(--neon-green);
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    0 0 20px rgba(0, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.neon-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 0 15px var(--neon-green),
+    0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+/* Etiquetas */
+.neon-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid var(--neon-green);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--neon-green);
+  transition: all 0.3s ease;
+}
+
+.neon-tag:hover {
+  background: rgba(0, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
+/* Animación de parpadeo */
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    text-shadow: 0 0 10px var(--neon-green),
-                 0 0 20px var(--neon-green),
-                 0 0 30px var(--neon-pink);
+    opacity: 1;
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px var(--neon-pink);
   }
-  20%, 24%, 55% {        
+  20%, 24%, 55% {
+    opacity: 0.8;
     text-shadow: none;
   }
 }
