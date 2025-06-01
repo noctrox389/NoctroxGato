@@ -6,11 +6,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mods = await response.json();
     const container = document.getElementById('modscontainer');
 
-    // Validar que mods sea un array
     if (!Array.isArray(mods)) throw new Error('Formato de mods.json inválido');
 
     mods.forEach(mod => {
-      // Aplicar colores con valores por defecto
       const nameColor = mod.nameColor || '#0ff0fc';
       const cardColor = mod.cardColor || '#1a1a2e';
       const borderColor = nameColor;
@@ -18,12 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       const modCard = document.createElement('article');
       modCard.className = 'mod-card neon-card';
       
-      // Aplicar estilos personalizados
-      modCard.style.backgroundColor = cardColor;
-      modCard.style.borderColor = borderColor;
-      modCard.style.boxShadow = `0 0 15px ${nameColor}80`;
+      modCard.style.cssText = `
+        background: ${cardColor};
+        border: 2px solid ${borderColor};
+        box-shadow: 0 0 15px ${nameColor}80;
+      `;
       
-      // Escapar comillas simples en los créditos
       const safeCredits = (mod.credits || 'Créditos no disponibles')
                          .replace(/'/g, "\\'")
                          .replace(/"/g, '&quot;');
@@ -35,24 +33,35 @@ document.addEventListener('DOMContentLoaded', async () => {
                   allowfullscreen></iframe>
         </div>
         <div class="mod-info">
-          <h2 class="mod-name neon-flicker" style="
+          <h2 class="neon-flicker" style="
             color: ${nameColor};
             --neon-color: ${nameColor};
+            --neon-pink: #ff00ff;
           ">
             ${mod.name}
           </h2>
           <div class="mod-meta">
-            ${(mod.tags || []).map(tag => `<span class="neon-tag">${tag}</span>`).join('')}
+            ${(mod.tags || []).map(tag => `
+              <span class="neon-tag" style="
+                background: ${nameColor}20;
+                border: 1px solid ${nameColor};
+                color: ${nameColor};
+              ">
+                ${tag}
+              </span>
+            `).join('')}
           </div>
           <p class="mod-desc">${mod.description || 'Descripción no disponible'}</p>
           <div class="mod-links">
             <a href="${mod.mediafireUrl}" 
                class="neon-download" 
                target="_blank" 
-               rel="noopener noreferrer">
+               rel="noopener noreferrer"
+               style="color: ${nameColor}">
               <i class="fas fa-download"></i> MediaFire
             </a>
-            <button class="neon-credits" data-credits="${safeCredits}">
+            <button class="neon-credits" data-credits="${safeCredits}"
+                    style="color: ${nameColor}">
               <i class="fas fa-users"></i> Créditos
             </button>
           </div>
@@ -62,7 +71,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.appendChild(modCard);
     });
 
-    // Manejar clics en botones de créditos
     document.querySelectorAll('.neon-credits').forEach(button => {
       button.addEventListener('click', () => {
         alert(button.dataset.credits);
@@ -71,11 +79,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   } catch (error) {
     console.error('Error cargando mods:', error);
-    const errorContainer = document.getElementById('modsContainer') || document.body;
+    const errorContainer = document.getElementById('modscontainer') || document.body;
     errorContainer.innerHTML = `
-      <div class="error neon-text">
-        Error cargando los mods: ${error.message}
+      <div style="
+        color: #ff0000;
+        background: #1a1a2e;
+        padding: 1rem;
+        border: 1px solid #ff0000;
+        text-align: center;
+      ">
+        ⚠️ Error cargando los mods: ${error.message}
       </div>
+      ${errorContainer.innerHTML}
     `;
   }
 });
