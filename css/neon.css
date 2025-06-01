@@ -30,6 +30,13 @@
   background: rgba(0, 255, 255, 0.2);
   transform: translateY(-2px);
 }
+.mod-name.neon-text {
+  animation: flicker 1.5s infinite alternate;
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor;
+}
 
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
