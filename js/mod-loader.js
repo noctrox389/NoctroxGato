@@ -147,7 +147,9 @@ document.addEventListener('DOMContentLoaded', async () => {
               <i class="fas fa-download"></i> MediaFire
             </a>
             <button class="neon-credits" data-credits="${creditsList.replace(/"/g, '&quot;')}"
-                    style="color: ${nameColor}">
+                    style="color: black; /* Texto en negro */
+                           border-color: ${nameColor};
+                           background-color: ${nameColor}30;">
               <i class="fas fa-users"></i> Créditos
             </button>
           </div>
@@ -157,7 +159,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.appendChild(modCard);
     });
 
-    // POPUP DE CRÉDITOS CON FONDO TRANSPARENTE
+    // Manejar clics en botones de créditos
     document.querySelectorAll('.neon-credits').forEach(button => {
       button.addEventListener('click', () => {
         const popup = document.createElement('div');
@@ -188,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           ">
             <h3 style="
               margin-top: 0; 
-              color: ${button.style.color};
+              color: black; /* Texto en negro */
               text-shadow: 0 0 8px ${button.style.color};
             ">
               <i class="fas fa-users"></i> Créditos
