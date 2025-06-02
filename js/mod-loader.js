@@ -14,13 +14,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         if (typeof url !== 'string') return null;
         
-        // Para handles (@nombre)
         if (url.includes('youtube.com/@')) {
           const handle = url.split('@')[1].split('/')[0].split('?')[0];
           return handle || null;
         }
         
-        // Para IDs de canal (UC...)
         const channelIdRegex = /(?:youtube\.com\/(?:channel\/|user\/)|youtu\.be\/)([^\/\?]+)/i;
         const match = url.match(channelIdRegex);
         return match ? match[1] : null;
@@ -159,32 +157,70 @@ document.addEventListener('DOMContentLoaded', async () => {
       container.appendChild(modCard);
     });
 
-    // Manejar clics en botones de créditos
+    // POPUP DE CRÉDITOS CON FONDO TRANSPARENTE
     document.querySelectorAll('.neon-credits').forEach(button => {
       button.addEventListener('click', () => {
         const popup = document.createElement('div');
         popup.className = 'credits-popup';
+        popup.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        `;
+        
         popup.innerHTML = `
           <div class="credits-content" style="
             background: #1a1a2e;
             border: 2px solid ${button.style.color};
-            padding: 1rem;
+            box-shadow: 0 0 20px ${button.style.color};
+            padding: 1.5rem;
             max-width: 80vw;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 8px;
           ">
-            <h3 style="margin-top: 0; color: ${button.style.color}">
+            <h3 style="
+              margin-top: 0; 
+              color: ${button.style.color};
+              text-shadow: 0 0 8px ${button.style.color};
+            ">
               <i class="fas fa-users"></i> Créditos
             </h3>
-            <div>${button.dataset.credits}</div>
+            <div style="color: #ffffff;">${button.dataset.credits}</div>
             <button class="close-btn" style="
               margin-top: 1rem;
               background: transparent;
               color: ${button.style.color};
               border: 1px solid ${button.style.color};
-            ">Cerrar</button>
+              padding: 0.5rem 1rem;
+              cursor: pointer;
+              border-radius: 4px;
+              transition: all 0.3s ease;
+            ">
+              Cerrar
+            </button>
           </div>
         `;
         
-        popup.querySelector('.close-btn').addEventListener('click', () => {
+        // Efectos hover para el botón de cerrar
+        const closeBtn = popup.querySelector('.close-btn');
+        closeBtn.addEventListener('mouseenter', () => {
+          closeBtn.style.background = `${button.style.color}20`;
+          closeBtn.style.boxShadow = `0 0 10px ${button.style.color}`;
+        });
+        closeBtn.addEventListener('mouseleave', () => {
+          closeBtn.style.background = 'transparent';
+          closeBtn.style.boxShadow = 'none';
+        });
+        
+        closeBtn.addEventListener('click', () => {
           document.body.removeChild(popup);
         });
         
