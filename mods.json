@@ -1,22 +1,20 @@
-[
-  {
-    "name": "FALLEN HERO SCRAPED",
-    "nameColor": "#00FFFF",
-    "videoId": "HsKu9ffmQ4U",
-    "mediafireUrl": "https://www.mediafire.com/file/bvi235zs1zymhex/Fallen-Hero_optimizado_%255BAlexis-noctrox%255D/file",
-    "description": "Optimizado full peso 7 mb xd",
-    "tags": ["Optimizado", "Android/pc"],
-    "cardColor": "#1a1a2e",
-    "credits": [
-  {
-    "name": "@NoctroxGato",
-    "url": "https://youtube.com/@noctroxgato",
-    "platform": "youtube"
-  },
-  {
-    "name": "Comunidad FNF",
-    "url": null
-  }
-    ]
-  }
-]
+[{
+  "name": "FALLEN HERO SCRAPED",
+  "nameColor": "#00FFFF",
+  "videoId": "HsKu9ffmQ4U",
+  "mediafireUrl": "https://www.mediafire.com/file/bvi235zs1zymhex/Fallen-Hero_optimizado_%255BAlexis-noctrox%255D/file",
+  "description": "Optimizado full peso 7 mb xd",
+  "tags": ["Optimizado", "Android/pc"],
+  "cardColor": "#1a1a2e",
+  "credits": [
+    {
+      "name": "@NoctroxGato",
+      "url": "https://youtube.com/@noctroxgato",
+      "platform": "youtube"
+    },
+    {
+      "name": "Comunidad FNF",
+      "url": null
+    }
+  ]
+}]
