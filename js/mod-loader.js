@@ -176,12 +176,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           align-items: center;
           z-index: 1000;
         `;
-        
+          const cyanColor = '#00FFFF';
         popup.innerHTML = `
           <div class="credits-content" style="
             background: #1a1a2e;
-            border: 2px solid ${button.style.color};
-            box-shadow: 0 0 20px ${button.style.color};
+            border: 2px solid ${cyanColor};
+            box-shadow: 0 0 20px ${cyanColor};
             padding: 1.5rem;
             max-width: 80vw;
             max-height: 80vh;
@@ -190,8 +190,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           ">
             <h3 style="
               margin-top: 0; 
-              color: black; /* Texto en negro */
-              text-shadow: 0 0 8px ${button.style.color};
+              color: ${cyanColor}; /* Texto en negro */
+              text-shadow: 0 0 8px ${cyanColor};
             ">
               <i class="fas fa-users"></i> Créditos
             </h3>
@@ -199,8 +199,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             <button class="close-btn" style="
               margin-top: 1rem;
               background: transparent;
-              color: ${button.style.color};
-              border: 1px solid ${button.style.color};
+              color: ${cyanColor};
+              border: 1px solid ${cyanColor};
               padding: 0.5rem 1rem;
               cursor: pointer;
               border-radius: 4px;
