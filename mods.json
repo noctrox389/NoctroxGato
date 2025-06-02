@@ -7,6 +7,16 @@
     "description": "Optimizado full peso 7 mb xd",
     "tags": ["Optimizado", "Android/pc"],
     "cardColor": "#1a1a2e",
-    "credits": "Noctrox Gato"
+    "credits": [
+  {
+    "name": "@NoctroxGato",
+    "url": "https://youtube.com/@noctroxgato",
+    "platform": "youtube"
+  },
+  {
+    "name": "Comunidad FNF",
+    "url": null
+  }
+    ]
   }
 ]
