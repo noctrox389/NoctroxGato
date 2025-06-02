@@ -56,6 +56,26 @@
   transform: translateY(-2px);
   box-shadow: 0 0 10px var(--neon-green);
 }
+/* Miniaturas de YouTube */
+.yt-thumbnail {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--neon-green);
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.yt-thumbnail:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* Fallback para imágenes error */
+.yt-thumbnail[src*="default.jpg"] {
+  filter: brightness(0.8) saturate(0.5);
+}
 
 /* Animación de parpadeo */
 @keyframes flicker {
