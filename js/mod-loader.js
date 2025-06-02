@@ -1,5 +1,3 @@
-import { renderCreditItem } from './iconsYT.js';
-
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const response = await fetch('mods.json');
@@ -10,6 +8,93 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!container) throw new Error('Contenedor de mods no encontrado');
 
     if (!Array.isArray(mods)) throw new Error('Formato de mods.json inválido');
+
+    // Función para extraer el handle/ID de YouTube
+    const getYouTubeHandle = (url) => {
+      try {
+        if (typeof url !== 'string') return null;
+        
+        // Para handles (@nombre)
+        if (url.includes('youtube.com/@')) {
+          const handle = url.split('@')[1].split('/')[0].split('?')[0];
+          return handle || null;
+        }
+        
+        // Para IDs de canal (UC...)
+        const channelIdRegex = /(?:youtube\.com\/(?:channel\/|user\/)|youtu\.be\/)([^\/\?]+)/i;
+        const match = url.match(channelIdRegex);
+        return match ? match[1] : null;
+        
+      } catch (error) {
+        console.error('Error al extraer handle de YouTube:', error);
+        return null;
+      }
+    };
+
+    // Función para generar URL de thumbnail
+    const getYouTubeThumbnail = (handleOrId) => {
+      if (!handleOrId) return null;
+      return `https://yt3.googleusercontent.com/ytc/${handleOrId}=s88-c-k-c0x00ffffff-no-rj`;
+    };
+
+    // Función para obtener icono de plataforma
+    const getPlatformIcon = (platform) => {
+      const icons = {
+        youtube: 'fab fa-youtube',
+        twitter: 'fab fa-twitter',
+        instagram: 'fab fa-instagram',
+        tiktok: 'fab fa-tiktok',
+        facebook: 'fab fa-facebook',
+        twitch: 'fab fa-twitch',
+        discord: 'fab fa-discord',
+        website: 'fas fa-globe',
+        default: 'fas fa-link'
+      };
+      return `<i class="${icons[platform] || icons.default}"></i>`;
+    };
+
+    // Función principal para generar el HTML del crédito
+    const renderCreditItem = (credit, nameColor = '#0ff0fc') => {
+      if (!credit?.url) {
+        return `<div class="credit-item">${credit?.name || 'Crédito no disponible'}</div>`;
+      }
+
+      let mediaContent = '';
+      const platform = credit.platform?.toLowerCase();
+
+      try {
+        if (platform === 'youtube') {
+          const ytHandle = getYouTubeHandle(credit.url);
+          if (ytHandle) {
+            mediaContent = `
+              <img src="${getYouTubeThumbnail(ytHandle)}" 
+                   alt="${credit.name || 'YouTube'}"
+                   class="yt-thumbnail"
+                   style="border-color: ${nameColor}"
+                   onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${ytHandle}/default.jpg'">`;
+          } else {
+            mediaContent = '<i class="fab fa-youtube"></i>';
+          }
+        } else {
+          mediaContent = platform ? getPlatformIcon(platform) : '';
+        }
+      } catch (error) {
+        console.error('Error generando crédito:', error);
+        mediaContent = '<i class="fas fa-exclamation-circle"></i>';
+      }
+
+      return `
+        <div class="credit-item" style="--neon-color: ${nameColor}">
+          ${mediaContent}
+          <a href="${credit.url}" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             style="color: ${nameColor}">
+            ${credit.name}
+          </a>
+        </div>
+      `;
+    };
 
     mods.forEach(mod => {
       const nameColor = mod.nameColor || '#0ff0fc';
@@ -24,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         box-shadow: 0 0 15px ${nameColor}80;
       `;
       
-      // Generar lista de créditos (usando la función importada)
+      // Generar lista de créditos
       const creditsList = mod.credits?.map(credit => 
         renderCreditItem(credit, nameColor)
       ).join('') || 'Créditos no disponibles';
