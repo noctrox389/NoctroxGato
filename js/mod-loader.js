@@ -1,3 +1,11 @@
+import { renderCreditItem } from './iconsYT.js';
+
+// ... (código existente)
+
+// Reemplaza la parte de creditsList con:
+
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const response = await fetch('mods.json');
@@ -24,9 +32,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       modCard.style.boxShadow = `0 0 15px ${nameColor}80`;
       
       // Escapar comillas simples en los créditos
-      const safeCredits = (mod.credits || 'Créditos no disponibles')
-                         .replace(/'/g, "\\'")
-                         .replace(/"/g, '&quot;');
+      const creditsList = mod.credits?.map(credit => 
+  renderCreditItem(credit, nameColor)
+).join('') || 'Créditos no disponibles';
+
 
       modCard.innerHTML = `
         <div class="mod-preview">
