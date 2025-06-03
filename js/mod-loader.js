@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!Array.isArray(mods)) throw new Error('Formato de mods.json inválido');
 
-    // Función para extraer el handle/ID de YouTube
+    // Función para extraer el handle/ID de YouTube (se mantiene igual)
     const getYouTubeHandle = (url) => {
       try {
         if (typeof url !== 'string') return null;
@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     };
 
-    // Función para generar URL de thumbnail
+    // Función para generar URL de thumbnail (se mantiene igual)
     const getYouTubeThumbnail = (handleOrId) => {
       if (!handleOrId) return null;
       return `https://yt3.googleusercontent.com/ytc/${handleOrId}=s88-c-k-c0x00ffffff-no-rj`;
     };
 
-    // Función para obtener icono de plataforma
+    // Función para obtener icono de plataforma (se mantiene igual)
     const getPlatformIcon = (platform) => {
       const icons = {
         youtube: 'fab fa-youtube',
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return `<i class="${icons[platform] || icons.default}"></i>`;
     };
 
-    // Función principal para generar el HTML del crédito
+    // Función para generar créditos (se mantiene igual)
     const renderCreditItem = (credit, nameColor = '#0ff0fc') => {
       if (!credit?.url) {
         return `<div class="credit-item">${credit?.name || 'Crédito no disponible'}</div>`;
@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     };
 
+    // Creación de tarjetas (con la mejora en la descripción)
     mods.forEach(mod => {
       const nameColor = mod.nameColor || '#0ff0fc';
       const cardColor = mod.cardColor || '#1a1a2e';
@@ -105,10 +106,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         background: ${cardColor};
         border: 2px solid ${borderColor};
         box-shadow: 0 0 15px ${nameColor}80;
-        height: 500px; /* Altura fija para todas las tarjetas */
+        height: 500px;
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        transition: height 0.3s ease; /* Para animación suave */
       `;
       
       // Generar lista de créditos
@@ -116,12 +118,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderCreditItem(credit, nameColor)
       ).join('') || 'Créditos no disponibles';
 
-      // Manejo de descripción con "Leer más"
+      // Sistema de descripción expandible
       const fullDesc = mod.description || 'Descripción no disponible';
-      const shortDesc = fullDesc.length > 100 
-        ? fullDesc.substring(0, 100) + '...' 
-        : fullDesc;
-      const showReadMore = fullDesc.length > 100;
+      const maxChars = 100;
+      const isLongDesc = fullDesc.length > maxChars;
+      const shortDesc = isLongDesc ? fullDesc.substring(0, maxChars) + '...' : fullDesc;
 
       modCard.innerHTML = `
         <div class="mod-preview">
@@ -151,24 +152,20 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p class="mod-desc" style="
             flex: 1;
             overflow: hidden;
-            position: relative;
-            margin-bottom: ${showReadMore ? '25px' : '10px'};
+            margin: 10px 0;
           ">
-            ${shortDesc}
-            ${showReadMore ? `
-              <button class="read-more-btn" style="
-                position: absolute;
-                bottom: 0;
-                left: 0;
+            <span class="desc-text">${shortDesc}</span>
+            ${isLongDesc ? `
+              <button class="read-toggle" style="
                 background: transparent;
                 border: none;
                 color: ${nameColor};
                 cursor: pointer;
                 padding: 0;
                 font-size: 0.9em;
-              ">
-                Leer más...
-              </button>
+                display: block;
+                margin-top: 5px;
+              ">Leer más</button>
             ` : ''}
           </p>
           <div class="mod-links">
@@ -189,21 +186,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `;
       
-      // Evento para "Leer más"
-      if (showReadMore) {
-        const readMoreBtn = modCard.querySelector('.read-more-btn');
-        const descElement = modCard.querySelector('.mod-desc');
-        
-        readMoreBtn.addEventListener('click', () => {
-          descElement.innerHTML = fullDesc;
-          modCard.style.height = 'auto'; // Ajusta altura al expandir
+      // Funcionalidad toggle (Leer más/Mostrar menos)
+      if (isLongDesc) {
+        const descText = modCard.querySelector('.desc-text');
+        const toggleBtn = modCard.querySelector('.read-toggle');
+        let isExpanded = false;
+
+        toggleBtn.addEventListener('click', () => {
+          isExpanded = !isExpanded;
+          
+          if (isExpanded) {
+            descText.textContent = fullDesc;
+            toggleBtn.textContent = 'Mostrar menos';
+            modCard.style.height = 'auto';
+          } else {
+            descText.textContent = shortDesc;
+            toggleBtn.textContent = 'Leer más';
+            modCard.style.height = '500px';
+          }
         });
       }
       
       container.appendChild(modCard);
     });
 
-    // Manejar clics en botones de créditos
+    // Popup de créditos (se mantiene igual)
     document.querySelectorAll('.neon-credits').forEach(button => {
       button.addEventListener('click', () => {
         const popup = document.createElement('div');
@@ -214,7 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           left: 0;
           width: 100%;
           height: 100%;
-          background: transparent;
+          background: rgba(0,0,0,0.8);
           display: flex;
           justify-content: center;
           align-items: center;
