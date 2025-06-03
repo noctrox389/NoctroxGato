@@ -105,12 +105,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         background: ${cardColor};
         border: 2px solid ${borderColor};
         box-shadow: 0 0 15px ${nameColor}80;
+        height: 500px; /* Altura fija para todas las tarjetas */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
       `;
       
       // Generar lista de créditos
       const creditsList = mod.credits?.map(credit => 
         renderCreditItem(credit, nameColor)
       ).join('') || 'Créditos no disponibles';
+
+      // Manejo de descripción con "Leer más"
+      const fullDesc = mod.description || 'Descripción no disponible';
+      const shortDesc = fullDesc.length > 100 
+        ? fullDesc.substring(0, 100) + '...' 
+        : fullDesc;
+      const showReadMore = fullDesc.length > 100;
 
       modCard.innerHTML = `
         <div class="mod-preview">
@@ -119,7 +130,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen></iframe>
         </div>
-        <div class="mod-info">
+        <div class="mod-info" style="flex: 1; display: flex; flex-direction: column;">
           <h2 class="mod-name neon-flicker" style="
             color: ${nameColor};
             --neon-color: ${nameColor};
@@ -137,7 +148,29 @@ document.addEventListener('DOMContentLoaded', async () => {
               </span>
             `).join('')}
           </div>
-          <p class="mod-desc">${mod.description || 'Descripción no disponible'}</p>
+          <p class="mod-desc" style="
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: ${showReadMore ? '25px' : '10px'};
+          ">
+            ${shortDesc}
+            ${showReadMore ? `
+              <button class="read-more-btn" style="
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: transparent;
+                border: none;
+                color: ${nameColor};
+                cursor: pointer;
+                padding: 0;
+                font-size: 0.9em;
+              ">
+                Leer más...
+              </button>
+            ` : ''}
+          </p>
           <div class="mod-links">
             <a href="${mod.mediafireUrl}" 
                class="neon-download" 
@@ -147,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <i class="fas fa-download"></i> MediaFire
             </a>
             <button class="neon-credits" data-credits="${creditsList.replace(/"/g, '&quot;')}"
-                    style="color: black; /* Texto en negro */
+                    style="color: black;
                            border-color: ${nameColor};
                            background-color: ${nameColor}30;">
               <i class="fas fa-users"></i> Créditos
@@ -155,6 +188,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         </div>
       `;
+      
+      // Evento para "Leer más"
+      if (showReadMore) {
+        const readMoreBtn = modCard.querySelector('.read-more-btn');
+        const descElement = modCard.querySelector('.mod-desc');
+        
+        readMoreBtn.addEventListener('click', () => {
+          descElement.innerHTML = fullDesc;
+          modCard.style.height = 'auto'; // Ajusta altura al expandir
+        });
+      }
       
       container.appendChild(modCard);
     });
@@ -176,7 +220,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           align-items: center;
           z-index: 1000;
         `;
-          const cyanColor = '#00FFFF';
+        
+        const cyanColor = '#00FFFF';
         popup.innerHTML = `
           <div class="credits-content" style="
             background: #1a1a2e;
@@ -190,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           ">
             <h3 style="
               margin-top: 0; 
-              color: ${cyanColor}; /* Texto en negro */
+              color: ${cyanColor};
               text-shadow: 0 0 8px ${cyanColor};
             ">
               <i class="fas fa-users"></i> Créditos
@@ -214,8 +259,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Efectos hover para el botón de cerrar
         const closeBtn = popup.querySelector('.close-btn');
         closeBtn.addEventListener('mouseenter', () => {
-          closeBtn.style.background = `${button.style.color}20`;
-          closeBtn.style.boxShadow = `0 0 10px ${button.style.color}`;
+          closeBtn.style.background = 'rgba(0, 255, 255, 0.2)';
+          closeBtn.style.boxShadow = '0 0 10px #00FFFF';
         });
         closeBtn.addEventListener('mouseleave', () => {
           closeBtn.style.background = 'transparent';
